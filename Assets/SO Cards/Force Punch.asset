@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: New Card
-  m_EditorClassIdentifier: Main::CardSO
+  m_Script: {fileID: 11500000, guid: d3b4fa4415afaeb40b47f481fb93ec6e, type: 3}
+  m_Name: Force Punch
+  m_EditorClassIdentifier: 
   name: 
   description: 
-  characterAsset: {fileID: 0}
   artwork: {fileID: 0}
-  staminaCost: 0
-  cardType: 
-  health: 0
+  stminaCost: 0
+  attack: 0

@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: FireStorm
-  m_EditorClassIdentifier: Main::CardSO
+  m_Script: {fileID: 11500000, guid: d3b4fa4415afaeb40b47f481fb93ec6e, type: 3}
+  m_Name: Fire Blast
+  m_EditorClassIdentifier: 
   name: 
   description: 
-  characterAsset: {fileID: 0}
-  artwork: {fileID: -5726572761916440628, guid: ca118ef28b08a6f4780169a5c493047a,
-    type: 3}
-  staminaCost: 0
-  cardType: 
-  health: 0
+  artwork: {fileID: 0}
+  satminaCost: 0
+  attack: 0
