@@ -9,13 +9,11 @@ public class TurnOrders : MonoBehaviour
     static Queue<TacticsMove> turnTeam = new Queue<TacticsMove>();
    
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (turnTeam.Count == 0)

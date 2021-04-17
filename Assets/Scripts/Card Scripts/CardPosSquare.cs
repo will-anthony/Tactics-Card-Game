@@ -4,61 +4,53 @@ using UnityEngine;
 
 public class CardPosSquare : MonoBehaviour
 {
-    /*
-    [SerializeField] private CardDisplay card;
+    
     [SerializeField] private int maxHandSize;
-    private Vector3[] cardPositions;
-    // Start is called before the first frame update
+    [SerializeField] private GameObject[] evenCardSlots = new GameObject[12];
+    [SerializeField] private GameObject[] oddCardSlots = new GameObject[11];
+    private List<CardDisplay> hand;
     void Start()
     {
-        cardPositions = SetUpCardPositions();
 
-        card.transform.position = this.transform.position;
-        card.transform.rotation = this.transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
-           
+           if(hand != null && hand.Count <= maxHandSize)
+        {
+            DisplayCards();
+        } 
     }
 
-    private Vector3[] SetUpCardPositions()
+    private void DisplayCards()
     {
-        Vector3 cardToCameraPadding = new Vector3(0, 1f, 0);
-        Vector3 distance = this.transform.position + cardToCameraPadding;
+        GameObject[] evenOrOdd = IsEvenHandLength() ? evenCardSlots : oddCardSlots;
+        Vector3 cardDistance = new Vector3(0, 0.7f, 0); 
 
-        Vector3[] temp = new Vector3[12];
-        temp[0] = distance;
-        temp[1] = distance + new Vector3(1, 0, 0);
-        temp[2] = distance + new Vector3(-1, 0, 0);
-        temp[3] = distance + new Vector3(2, 0, 0);
-        temp[4] = distance + new Vector3(-2, 0, 0);
-        temp[5] = distance + new Vector3(3, 0, 0);
-        temp[6] = distance + new Vector3(-3, 0, 0);
-        temp[7] = distance + new Vector3(4, 0, 0);
-        temp[8] = distance + new Vector3(-4, 0, 0);
-        temp[9] = distance + new Vector3(5, 0, 0);
-        temp[10] = distance + new Vector3(-5, 0, 0);
-        temp[11] = distance + new Vector3(6, 0, 0);
-        return temp;
-    }
-
-    public void DisplayDeck(List<CardDisplay> cards)
-    {
-        // check that the current hand size is not too big to display
-        int cardNumber = cards.Count;
-        if (cardNumber > maxHandSize)
+        for(int i = 0; i < hand.Count; i++)
         {
-            cardNumber = maxHandSize;
-        }
-  
-        for(int i = 0; i <= cardNumber; i++)
-        {
-            cards[i].transform.position = cardPositions[i];
+            hand[i].transform.position = evenOrOdd[i].transform.position + cardDistance;
+            hand[i].transform.rotation = evenOrOdd[i].transform.rotation;
         }
     }
-    */
+
+    private bool IsEvenHandLength()
+    {
+        if (hand.Count % 2 == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void SetHand(List<CardDisplay> hand)
+    {
+        this.hand = hand; 
+    }
 
 }
 

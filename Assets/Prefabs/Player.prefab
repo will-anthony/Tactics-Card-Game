@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6187956002007316629}
   - component: {fileID: 6187956002007316633}
   - component: {fileID: 6187956002007316639}
-  - component: {fileID: -4444623628753082067}
+  - component: {fileID: -2152050013120004319}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -59,7 +59,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -84,7 +83,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &6187956002007316629
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -128,7 +126,7 @@ MonoBehaviour:
   staminaCost: 1
   moving: 0
   turn: 0
---- !u!114 &-4444623628753082067
+--- !u!114 &-2152050013120004319
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,6 +135,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6187956002007316631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbc0978e8e0cf4b439c7b55c877c4494, type: 3}
+  m_Script: {fileID: 11500000, guid: df70d51b48884784c9741a0fce4a2ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

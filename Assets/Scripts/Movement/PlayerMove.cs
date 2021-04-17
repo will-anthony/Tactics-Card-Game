@@ -8,6 +8,7 @@ public class PlayerMove : TacticsMove
     void Start()
     {
         Init();
+
     }
 
     // Update is called once per frame
