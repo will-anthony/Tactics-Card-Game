@@ -26,12 +26,13 @@ public class CardPosSquare : MonoBehaviour
     private void DisplayCards()
     {
         GameObject[] evenOrOdd = IsEvenHandLength() ? evenCardSlots : oddCardSlots;
+        int startingSlot = FindStartingSlot(evenOrOdd.Length);
+
         Vector3 cardDistance = new Vector3(0, 0.7f, 0); 
 
         for(int i = 0; i < hand.Count; i++)
         {
-            hand[i].transform.position = evenOrOdd[i].transform.position + cardDistance;
-            hand[i].transform.rotation = evenOrOdd[i].transform.rotation;
+            hand[i].transform.position = evenOrOdd[startingSlot + i].transform.position + cardDistance;
         }
     }
 
@@ -45,6 +46,17 @@ public class CardPosSquare : MonoBehaviour
         {
             return false;
         }
+    }
+
+    private int FindStartingSlot(int totalSlots)
+    {
+        int emptySlots = (totalSlots - hand.Count);
+        if (emptySlots <= 0)
+        {
+            return 0;
+        }
+
+        return emptySlots / 2 - 1;
     }
 
     public void SetHand(List<CardDisplay> hand)
