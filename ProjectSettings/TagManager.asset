@@ -7,6 +7,7 @@ TagManager:
   - Cube
   - NPC
   - Grid Square
+  - Card
   layers:
   - Default
   - TransparentFX
