@@ -20,6 +20,7 @@ public class PlayerDeck : MonoBehaviour
         if(GetComponent<PlayerMove>().turn == true && cardsSet == false)
         {
             GameObject.Find("Card Slots").GetComponent<CardPosSquare>().SetHand(deck);
+            cardsSet = true;
         }
 
         if (GetComponent<PlayerMove>().turn == false)

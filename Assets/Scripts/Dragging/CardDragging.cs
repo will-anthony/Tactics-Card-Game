@@ -16,17 +16,15 @@ public class CardDragging : MonoBehaviour
 
     private void CheckMouse()
     {
-        if (Input.GetMouseButtonDown(0))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (hit.collider.tag == "Card")
             {
-                if (hit.collider.tag == "Card")
-                {
-                    Debug.Log("Card " + hit.collider.name + " clicked");
-                }
+                Debug.Log("Card " + hit.collider.name + " clicked");
             }
         }
+        
     }
 }

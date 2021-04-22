@@ -9,18 +9,19 @@ public class CardPosSquare : MonoBehaviour
     [SerializeField] private GameObject[] evenCardSlots = new GameObject[12];
     [SerializeField] private GameObject[] oddCardSlots = new GameObject[11];
     private List<CardDisplay> hand;
+    private bool newHand = false;
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-           if(hand != null && hand.Count <= maxHandSize)
-        {
-            DisplayCards();
-        } 
+           if(newHand && hand.Count <= maxHandSize)
+           {
+               DisplayCards();
+               newHand = false;
+           } 
     }
 
     private void DisplayCards()
@@ -56,12 +57,13 @@ public class CardPosSquare : MonoBehaviour
             return 0;
         }
 
-        return emptySlots / 2 - 1;
+        return emptySlots / 2;
     }
 
     public void SetHand(List<CardDisplay> hand)
     {
-        this.hand = hand; 
+        this.hand = hand;
+        newHand = true;
     }
 
 }
