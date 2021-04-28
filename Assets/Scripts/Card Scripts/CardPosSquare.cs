@@ -12,7 +12,7 @@ public class CardPosSquare : MonoBehaviour
     private bool newHand = false;
     void Start()
     {
-
+        
     }
 
     void Update()

@@ -8,11 +8,12 @@ public class CardHighlighter : MonoBehaviour
     Vector3 neutralPos;
     Vector3 highlightedPos;
 
+
     // Start is called before the first frame update
     void Start()
     {
         neutralPos = transform.position;
-        highlightedPos = new Vector3(0, 0.5f, 0.2f);
+        highlightedPos = new Vector3(0, 0.3f, -1f);
     }
 
     // Update is called once per frame
@@ -24,23 +25,26 @@ public class CardHighlighter : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.collider.tag == "Card")
-            {
-                transform.position += highlightedPos;
-                transform.localScale = new Vector3(-0.8f, 0.8f, 0.8f);
-            }
-        }
+        transform.position += highlightedPos;
+        transform.localScale = new Vector3(-0.8f, 0.8f, 0.8f);
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //RaycastHit hit;
+        //if (Physics.Raycast(ray, out hit))
+        //{
+        //    if (hit.collider.tag == "Card")
+        //    {
+        //        transform.position += highlightedPos;
+        //        transform.localScale = new Vector3(-0.8f, 0.8f, 0.8f);
+        //    }
+        //}
     }
 
     private void OnMouseExit()
     {
         transform.position -= highlightedPos;
         transform.localScale = new Vector3(-0.65f, 0.65f, 0.65f);
-
     }
+
+
 
 }

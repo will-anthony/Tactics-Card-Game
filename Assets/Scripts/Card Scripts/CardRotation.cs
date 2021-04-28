@@ -9,6 +9,8 @@ using UnityEngine;
     public class CardRotation : MonoBehaviour
     {
 
+    [SerializeField] Camera cam;
+
         // parent game object for all the card face graphics
         public RectTransform CardFront;
 
@@ -36,6 +38,6 @@ using UnityEngine;
         {
             return Vector3.Dot(
                 CardFront.transform.forward,
-                Camera.main.transform.position - CardFront.transform.position) < 0;
+                cam.transform.position - CardFront.transform.position) < 0;
         }
     }
