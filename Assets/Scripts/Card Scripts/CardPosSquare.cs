@@ -34,6 +34,7 @@ public class CardPosSquare : MonoBehaviour
         for(int i = 0; i < hand.Count; i++)
         {
             hand[i].transform.position = evenOrOdd[startingSlot + i].transform.position + cardDistance;
+            hand[i].transform.rotation = evenOrOdd[startingSlot + i].transform.rotation;
         }
     }
 
@@ -65,7 +66,6 @@ public class CardPosSquare : MonoBehaviour
         this.hand = hand;
         newHand = true;
     }
-
 }
 
  
