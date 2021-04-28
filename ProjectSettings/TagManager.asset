@@ -8,6 +8,7 @@ TagManager:
   - NPC
   - Grid Square
   - Card
+  - Card Camera
   layers:
   - Default
   - TransparentFX
