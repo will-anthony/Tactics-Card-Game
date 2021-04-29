@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class CardHighlighter : MonoBehaviour
 {
-    float distance = 2f;
-    Vector3 neutralPos;
-    Vector3 highlightedPos;
+    // transform
+    private float additionalXPos = 0;
+    private float additionalYPos = 0;
+    private float additionalZPos = -1f;
+    private Vector3 originalPos;
+    // rotation
+    private Quaternion verticalRotation = Quaternion.Euler(0,0,0);
+    private Quaternion originalRotation;
+    // scale
+    private Vector3 highlightedScale = new Vector3(-0.8f, 0.8f, 0.8f);
+    private Vector3 originalScale = new Vector3(-0.65f, 0.65f, 0.65f);
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        neutralPos = transform.position;
-        highlightedPos = new Vector3(0, 0.3f, -1f);
+        
     }
 
     // Update is called once per frame
@@ -25,26 +33,29 @@ public class CardHighlighter : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        transform.position += highlightedPos;
-        transform.localScale = new Vector3(-0.8f, 0.8f, 0.8f);
-        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //RaycastHit hit;
-        //if (Physics.Raycast(ray, out hit))
-        //{
-        //    if (hit.collider.tag == "Card")
-        //    {
-        //        transform.position += highlightedPos;
-        //        transform.localScale = new Vector3(-0.8f, 0.8f, 0.8f);
-        //    }
-        //}
+        originalPos = transform.position;
+        transform.position = CalculateHighlightedPos();
+        transform.localScale = highlightedScale;
+        originalRotation = transform.rotation;
+        transform.rotation = verticalRotation;
     }
 
     private void OnMouseExit()
     {
-        transform.position -= highlightedPos;
-        transform.localScale = new Vector3(-0.65f, 0.65f, 0.65f);
+        transform.position = originalPos;
+        transform.localScale = originalScale;
+        if(originalRotation != null)
+        {
+            transform.rotation = originalRotation;
+        }
     }
 
-
-
+    private Vector3 CalculateHighlightedPos()
+    {
+        float highlightedXpos = transform.position.x + additionalXPos;
+        float diffInY = -2 - transform.position.y; 
+        float highlightedYPos = transform.position.y + additionalYPos + diffInY;
+        float highlightedZPos = transform.position.z + additionalZPos;
+        return new Vector3(highlightedXpos, highlightedYPos, highlightedZPos);
+    }
 }

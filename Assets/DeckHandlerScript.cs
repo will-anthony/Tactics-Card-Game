@@ -1,23 +1,19 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDeck : MonoBehaviour
+public class DeckHandlerScript : MonoBehaviour
 {
-    [SerializeField] List<CardDisplay> deck = new List<CardDisplay>();
-    private bool cardsSet = false;
-    
-
-    // Start is called before the first frame update
+    List<CardDisplay> currentDeck = new List<CardDisplay>();
+    bool changeDeck = false;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(GetComponent<PlayerMove>().turn == true && cardsSet == false)
+        if (GetComponent<PlayerMove>().turn == true && cardsSet == false)
         {
             GameObject.Find("DeckHandler").GetComponent<DeckHandlerScript>().SetHand(deck);
             cardsSet = true;
@@ -28,4 +24,10 @@ public class PlayerDeck : MonoBehaviour
             cardsSet = false;
         }
     }
+
+    public void SetHand(List<CardDisplay> deck)
+    {
+        this.currentDeck = deck;
+    }
+
 }
