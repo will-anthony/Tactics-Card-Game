@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CardHighlighter : MonoBehaviour
 {
+    private bool isHighlighted = false;
+
     // transform
     private float additionalXPos = 0;
     private float additionalYPos = 0;
@@ -21,7 +23,7 @@ public class CardHighlighter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -38,6 +40,7 @@ public class CardHighlighter : MonoBehaviour
         transform.localScale = highlightedScale;
         originalRotation = transform.rotation;
         transform.rotation = verticalRotation;
+        isHighlighted = true;
     }
 
     private void OnMouseExit()
@@ -48,7 +51,9 @@ public class CardHighlighter : MonoBehaviour
         {
             transform.rotation = originalRotation;
         }
+        isHighlighted = false;
     }
+
 
     private Vector3 CalculateHighlightedPos()
     {
@@ -57,5 +62,10 @@ public class CardHighlighter : MonoBehaviour
         float highlightedYPos = transform.position.y + additionalYPos + diffInY;
         float highlightedZPos = transform.position.z + additionalZPos;
         return new Vector3(highlightedXpos, highlightedYPos, highlightedZPos);
+    }
+
+    public bool getHighlighted()
+    {
+        return isHighlighted;
     }
 }

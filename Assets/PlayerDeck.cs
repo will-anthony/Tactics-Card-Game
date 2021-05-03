@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerDeck : MonoBehaviour
 {
-    [SerializeField] List<CardDisplay> deck = new List<CardDisplay>();
+    private const string DECK_HANDLER_NAME = "DeckHandler";
+    [SerializeField] List<CardHighlighter> deck = new List<CardHighlighter>();
     private bool cardsSet = false;
     
 
@@ -19,7 +20,7 @@ public class PlayerDeck : MonoBehaviour
     {
         if(GetComponent<PlayerMove>().turn == true && cardsSet == false)
         {
-            GameObject.Find("DeckHandler").GetComponent<DeckHandlerScript>().SetHand(deck);
+            GameObject.Find(DECK_HANDLER_NAME).GetComponent<DeckHandlerScript>().SetNewDeck(deck);
             cardsSet = true;
         }
 

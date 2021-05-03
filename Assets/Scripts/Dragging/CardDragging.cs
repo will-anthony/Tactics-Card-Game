@@ -25,6 +25,5 @@ public class CardDragging : MonoBehaviour
                 Debug.Log("Card " + hit.collider.name + " clicked");
             }
         }
-        
     }
 }

@@ -4,30 +4,73 @@ using UnityEngine;
 
 public class DeckHandlerScript : MonoBehaviour
 {
-    List<CardDisplay> currentDeck = new List<CardDisplay>();
+    private List<CardHighlighter> wholeDeck = new List<CardHighlighter>();
+    private Stack<CardHighlighter> drawPile;
+    private List<CardHighlighter> discardPile = new List<CardHighlighter>();
+    private List<CardHighlighter> hand = new List<CardHighlighter>();
     bool changeDeck = false;
+
     void Start()
     {
-        
+
     }
 
-    void Update()
+    public void SetNewDeck(List<CardHighlighter> wholeDeck)
     {
-        if (GetComponent<PlayerMove>().turn == true && cardsSet == false)
-        {
-            GameObject.Find("DeckHandler").GetComponent<DeckHandlerScript>().SetHand(deck);
-            cardsSet = true;
-        }
+        this.wholeDeck = wholeDeck;
+//        GameObject.Find("Card Slots").GetComponent<CardPosSquare>().MoveDeckToDrawPileSlot(wholeDeck);
+        RefreshDrawPile(wholeDeck);
+        DrawCards(5);
+    }
 
-        if (GetComponent<PlayerMove>().turn == false)
+    private void RefreshDrawPile(List<CardHighlighter> deck)
+    {
+        deck = ShuffleDeck(deck);
+        drawPile = new Stack<CardHighlighter>(deck);
+    }
+
+    public void DrawCards(int numberOfCards)
+    {
+        for (int i = 0; i < numberOfCards; i++)
         {
-            cardsSet = false;
+            CardHighlighter card = DrawOneCard();
+            hand.Add(card);
+         //   GameObject.Find("Card Slots").GetComponent<CardPosSquare>().AddCardToHand(card);
         }
     }
 
-    public void SetHand(List<CardDisplay> deck)
+    private CardHighlighter DrawOneCard()
     {
-        this.currentDeck = deck;
+        if(drawPile.Count > 0)
+        {
+            return drawPile.Pop();
+        } 
+        else
+        {
+            RefreshDrawPile(discardPile);
+            return DrawOneCard();
+        }
+    }
+
+    private List<CardHighlighter> ShuffleDeck(List<CardHighlighter> deck)
+    {
+        int count = deck.Count;
+        int last = count - 1;
+        for (int i = 0; i < last; ++i)
+        {
+            int randomInt = Random.Range(i, count);
+            CardHighlighter card = deck[i];
+            deck[i] = deck[randomInt];
+            deck[randomInt] = card;
+        }
+
+        return deck;
+    }
+
+    public void DiscardCard(CardHighlighter card)
+    {
+        hand.Remove(card);
+        discardPile.Add(card);
     }
 
 }
