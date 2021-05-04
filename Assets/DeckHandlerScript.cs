@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DeckHandlerScript : MonoBehaviour
 {
+    private const int MAX_HAND_SIZE = 10;
     private List<CardHighlighter> wholeDeck = new List<CardHighlighter>();
     private Stack<CardHighlighter> drawPile;
     private List<CardHighlighter> discardPile = new List<CardHighlighter>();
@@ -20,7 +21,7 @@ public class DeckHandlerScript : MonoBehaviour
         this.wholeDeck = wholeDeck;
 //        GameObject.Find("Card Slots").GetComponent<CardPosSquare>().MoveDeckToDrawPileSlot(wholeDeck);
         RefreshDrawPile(wholeDeck);
-        DrawCards(5);
+        DrawCards(11);
     }
 
     private void RefreshDrawPile(List<CardHighlighter> deck)
@@ -31,6 +32,11 @@ public class DeckHandlerScript : MonoBehaviour
 
     public void DrawCards(int numberOfCards)
     {
+        if (numberOfCards > MAX_HAND_SIZE)
+        {
+            numberOfCards = MAX_HAND_SIZE;
+        }
+
         for (int i = 0; i < numberOfCards; i++)
         {
             CardHighlighter card = DrawOneCard();

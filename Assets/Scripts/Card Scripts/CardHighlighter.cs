@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CardHighlighter : MonoBehaviour
 {
     private bool isHighlighted = false;
+    
 
     // transform
     private float additionalXPos = 0;
@@ -36,10 +38,10 @@ public class CardHighlighter : MonoBehaviour
     private void OnMouseEnter()
     {
         originalPos = transform.position;
-        transform.position = CalculateHighlightedPos();
-        transform.localScale = highlightedScale;
+        transform.DOMove(CalculateHighlightedPos(), 0.05f);
+        transform.DOScale(highlightedScale, 0.05f);
         originalRotation = transform.rotation;
-        transform.rotation = verticalRotation;
+        transform.DORotate(verticalRotation.eulerAngles, 0.05f);
         isHighlighted = true;
     }
 
