@@ -35,7 +35,7 @@ public class DeckHandlerScript : MonoBehaviour
         {
             CardHighlighter card = DrawOneCard();
             hand.Add(card);
-         //   GameObject.Find("Card Slots").GetComponent<CardPosSquare>().AddCardToHand(card);
+            GameObject.Find("Card Slots").GetComponent<CardPosSquare>().AddCardToQueue(card);
         }
     }
 

@@ -13,7 +13,8 @@ public class CardPosSquare : MonoBehaviour
     [SerializeField] private GameObject discardPileSlot;
     Vector3 cardDistance = new Vector3(0, 0.7f, 0);
     private List<CardHighlighter> hand = new List<CardHighlighter>();
-    private bool nextAnimation;
+    private bool addNextCard = true;
+    private Queue<CardHighlighter> queuedCards = new Queue<CardHighlighter>();
 
     void Start()
     {
@@ -22,28 +23,36 @@ public class CardPosSquare : MonoBehaviour
 
     void Update()
     {
-
+        AddCardFromQueueToHand();
     }
 
-    public void MoveDeckToDrawPileSlot(List<CardHighlighter> deck)
+    public void AddCardToQueue(CardHighlighter card)
     {
-        foreach(CardHighlighter card in deck)
+        queuedCards.Enqueue(card);
+    }
+
+    private void AddCardFromQueueToHand()
+    {
+        if (queuedCards.Count > 0 && addNextCard)
         {
-            transform.position = drawPileCardSlot.transform.position;
+            addNextCard = false;
+            CardHighlighter card = queuedCards.Dequeue();
+            int nextOpenSlot = MoveCardsDownOneSlot();
+            GameObject[] evenOrOdd = IsEvenHandLength() ? evenCardSlots : oddCardSlots;
+
+            card.transform.rotation = evenOrOdd[nextOpenSlot].transform.rotation;
+            card.transform.DOMove(evenOrOdd[nextOpenSlot].transform.position + cardDistance, 2f).OnComplete(()=>
+            {
+                addNextCard = true;
+                hand.Add(card);
+            });
         }
     }
-
-    private bool TimeForNextAnimation()
-    {
-        return nextAnimation;
-    }
-
 
     public bool AddCardsToHand(List<CardHighlighter> cards)
     {
         
         int nextOpenSlot = MoveCardsDownOneSlot();
-//        DrawPileToHandAnimation(card);
         //hand.Add(card);
         //AddNewCardToSlot(card, nextOpenSlot);
         
@@ -59,7 +68,6 @@ public class CardPosSquare : MonoBehaviour
             foreach(CardHighlighter card in hand)
             {
                 card.transform.DOMove(oddCardSlots[firstOccupiedSlot - 1].transform.position + cardDistance, 2f);
-//                card.transform.position = oddCardSlots[firstOccupiedSlot - 1].transform.position + cardDistance;
                 card.transform.rotation = oddCardSlots[firstOccupiedSlot - 1].transform.rotation;
                 firstOccupiedSlot++;
             }
@@ -78,25 +86,13 @@ public class CardPosSquare : MonoBehaviour
         }
     }
 
-    private void AddNewCardToSlot(CardHighlighter card, int index)
-    {
-        GameObject[] evenOrOdd = IsEvenHandLength() ? evenCardSlots : oddCardSlots;
-        card.transform.DOMove(evenOrOdd[index].transform.position + cardDistance, 2f).Complete(TimeForNextAnimation());
-        card.transform.rotation = evenOrOdd[index].transform.rotation;
-    }
-
-
-    //private void DisplayCards()
+    //private void AddNewCardToSlot(CardHighlighter card, int index)
     //{
     //    GameObject[] evenOrOdd = IsEvenHandLength() ? evenCardSlots : oddCardSlots;
-    //    int startingSlot = FindStartingSlot(evenOrOdd.Length);
-
-    //    for (int i = 0; i < hand.Count; i++)
-    //    {
-    //        hand[i].transform.position = evenOrOdd[startingSlot + i].transform.position + cardDistance;
-    //        hand[i].transform.rotation = evenOrOdd[startingSlot + i].transform.rotation;
-    //    }
+    //    card.transform.DOMove(evenOrOdd[index].transform.position + cardDistance, 2f).Complete(TimeForNextAnimation());
+    //    card.transform.rotation = evenOrOdd[index].transform.rotation;
     //}
+
 
     private bool IsEvenHandLength()
     {
@@ -121,35 +117,15 @@ public class CardPosSquare : MonoBehaviour
         return emptySlots / 2;
     }
 
-    //public void SetHand(List<CardHighlighter> hand)
-    //{
-    //    this.hand = hand;
-    //    newHand = true;
-    //}
+    public void MoveDeckToDrawPileSlot(List<CardHighlighter> deck)
+    {
+        foreach (CardHighlighter card in deck)
+        {
+            transform.position = drawPileCardSlot.transform.position;
+        }
+    }
 
-    //private void MakeRoomForHighLightedCard(int posInHand)
-    //{
-    //    if (!hasDeckSplit)
-    //    {
-    //        savedCardPositions = new List<Vector3>();
-    //        float xPosMove = 0.5f;
-    //        for (int i = 1; i < 3; i++)
-    //        {
-    //            if (posInHand + i < hand.Count)
-    //            {
-    //                savedCardPositions.Add(hand[posInHand + i].transform.position);
-    //                hand[posInHand + i].transform.position += new Vector3(xPosMove, 0, 0);
-    //            }
-    //            if (posInHand - i >= 0)
-    //            {
-    //                savedCardPositions.Add(hand[posInHand - i].transform.position);
-    //                hand[posInHand - i].transform.position -= new Vector3(xPosMove, 0, 0);
-    //            }
-    //            xPosMove -= 0.2f;
-    //        }
-    //        hasDeckSplit = true;
-    //    }
-    //}
+
 
     public GameObject GetDrawPileCardSlot()
     {
