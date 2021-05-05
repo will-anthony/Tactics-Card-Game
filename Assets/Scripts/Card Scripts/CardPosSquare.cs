@@ -11,10 +11,11 @@ public class CardPosSquare : MonoBehaviour
     [SerializeField] private GameObject drawPileCardSlot;
     [SerializeField] private GameObject discardPileSlot;
     private const float CARD_DRAW_SPEED = 0.2f;
-    private Vector3 cardDistance = new Vector3(0, 0.7f, 0);
+    private Vector3 cardHight = new Vector3(0, 0.7f, 0);
     private List<CardHighlighter> hand = new List<CardHighlighter>();
     private bool addNextCard = true;
     private Queue<CardHighlighter> queuedCards = new Queue<CardHighlighter>();
+
 
     void Update()
     {
@@ -36,8 +37,15 @@ public class CardPosSquare : MonoBehaviour
             GameObject[] evenOrOdd = IsEvenHandLength() ? oddCardSlots : evenCardSlots ;
 
             card.transform.rotation = evenOrOdd[nextOpenSlot].transform.rotation;
-            card.transform.DOMove(evenOrOdd[nextOpenSlot].transform.position + cardDistance, CARD_DRAW_SPEED).OnComplete(()=>
+            card.setCardSlotPos(evenOrOdd[nextOpenSlot].transform);
+            card.transform.DOMove(evenOrOdd[nextOpenSlot].transform.position + cardHight, CARD_DRAW_SPEED).OnComplete(()=>
             {
+                // sets a reference to cards to the right and left
+                if (hand.Count > 0)
+                {
+                    card.setleftHandCard(hand[hand.Count - 1]);
+                    hand[hand.Count - 1].setRightHandCard(card);
+                }
                 addNextCard = true;
                 hand.Add(card);
             });
@@ -52,8 +60,9 @@ public class CardPosSquare : MonoBehaviour
             int firstOccupiedSlot = FindStartingSlot(evenCardSlots.Length);
             foreach(CardHighlighter card in hand)
             {
-                card.transform.DOMove(oddCardSlots[firstOccupiedSlot - 1].transform.position + cardDistance, CARD_DRAW_SPEED);
+                card.transform.DOMove(oddCardSlots[firstOccupiedSlot - 1].transform.position + cardHight, CARD_DRAW_SPEED);
                 card.transform.DORotate(oddCardSlots[firstOccupiedSlot - 1].transform.rotation.eulerAngles, CARD_DRAW_SPEED);
+                card.setCardSlotPos(evenCardSlots[firstOccupiedSlot - 1].transform);
                 firstOccupiedSlot++;
             }
             return firstOccupiedSlot - 1;
@@ -63,8 +72,9 @@ public class CardPosSquare : MonoBehaviour
             int firstOccupiedSlot = FindStartingSlot(oddCardSlots.Length);
             foreach (CardHighlighter card in hand)
             {
-                card.transform.DOMove(evenCardSlots[firstOccupiedSlot].transform.position + cardDistance, CARD_DRAW_SPEED);
+                card.transform.DOMove(evenCardSlots[firstOccupiedSlot].transform.position + cardHight, CARD_DRAW_SPEED);
                 card.transform.DORotate(evenCardSlots[firstOccupiedSlot].transform.rotation.eulerAngles, CARD_DRAW_SPEED);
+                card.setCardSlotPos(evenCardSlots[firstOccupiedSlot].transform);
                 firstOccupiedSlot++;
             }
             return firstOccupiedSlot;
