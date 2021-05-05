@@ -20,6 +20,25 @@ public class CardPosSquare : MonoBehaviour
     void Update()
     {
         AddCardFromQueueToHand();
+        if (hand != null & hand.Count > 0)
+        {
+            NoCardsHighlighted();
+        }
+    }
+
+    private void NoCardsHighlighted()
+    {
+        foreach(CardHighlighter card in hand)
+        {
+            if (card.IsHighlighted())
+            {
+                return;
+            }
+        }
+        foreach(CardHighlighter card in hand)
+        {
+            card.transform.DOMove(card.GetCardSlotPos().transform.position + cardHight, 0.8f);
+        }
     }
 
     public void AddCardToQueue(CardHighlighter card)
@@ -43,8 +62,8 @@ public class CardPosSquare : MonoBehaviour
                 // sets a reference to cards to the right and left
                 if (hand.Count > 0)
                 {
-                    card.setleftHandCard(hand[hand.Count - 1]);
-                    hand[hand.Count - 1].setRightHandCard(card);
+                    card.setleftCard(hand[hand.Count - 1]);
+                    hand[hand.Count - 1].setRightCard(card);
                 }
                 addNextCard = true;
                 hand.Add(card);
@@ -119,6 +138,10 @@ public class CardPosSquare : MonoBehaviour
     public GameObject GetDiscardPileSlot()
     {
         return discardPileSlot;
+    }
+    public Transform GetMiddleCardPos()
+    {
+        return oddCardSlots[4].transform;
     }
 
 }

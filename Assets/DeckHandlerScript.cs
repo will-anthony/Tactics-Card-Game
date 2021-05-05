@@ -21,7 +21,7 @@ public class DeckHandlerScript : MonoBehaviour
         this.wholeDeck = wholeDeck;
 //        GameObject.Find("Card Slots").GetComponent<CardPosSquare>().MoveDeckToDrawPileSlot(wholeDeck);
         RefreshDrawPile(wholeDeck);
-        DrawCards(11);
+        DrawCards(9);
     }
 
     private void RefreshDrawPile(List<CardHighlighter> deck)
