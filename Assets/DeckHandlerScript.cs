@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeckHandlerScript : MonoBehaviour
 {
-    private const int MAX_HAND_SIZE = 10;
+    private const int MAX_HAND_SIZE = 8;
     private List<CardHighlighter> wholeDeck = new List<CardHighlighter>();
     private Stack<CardHighlighter> drawPile;
     private List<CardHighlighter> discardPile = new List<CardHighlighter>();

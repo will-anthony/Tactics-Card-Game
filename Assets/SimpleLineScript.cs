@@ -7,6 +7,8 @@ public class SimpleLineScript : MonoBehaviour
     private LineRenderer lineRenderer;
     private bool isCardClicked;
     private bool isLineTurnedOn;
+    [SerializeField]private Camera cam;
+    List<Vector3> linepoints = new List<Vector3>();
 
     private void Awake()
     {
@@ -19,60 +21,35 @@ public class SimpleLineScript : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isLineTurnedOn)
+        //if (GetComponent<CardHighlighter>().IsCardSelected())
+        //{
+        //    this.displayline();
+        //}
+    }
+       
+
+    private void displayline()
+    {
+        RaycastHit hit;
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log("MouseDown");
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.tag == "Card")
-                {
-                    isLineTurnedOn = true;
-                    isCardClicked = true;
-                }
-            }
+            Debug.Log("Card Clicked!");
+            return;
         }
+        
+        linepoints.Add(transform.position);
+        linepoints.Add(cam.ScreenToWorldPoint(Input.mousePosition));
+        lineRenderer.SetPositions(linepoints.ToArray());
 
-        if(isCardClicked)
-        {
-            DisplayLine();
-        } else
-        {
-            TurnLineOff();
-        }
-
-        if(Input.GetMouseButtonUp(0) && isLineTurnedOn)
-        {
-            Debug.Log("MouseUp");
-
-            isCardClicked = false;
-
-        }
     }
 
     private void TurnLineOff()
     {
-        lineRenderer.SetPositions(new Vector3[] { transform.position });
-
-    }
-
-    private void DisplayLine()
-    {
-        List<Vector3> linePoints = new List<Vector3>();
-        linePoints.Add(transform.position);
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.collider.tag == "Cube")
-            {
-                linePoints.Add(hit.transform.position);
-                lineRenderer.SetPositions(linePoints.ToArray());
-            }
-        }
+        linepoints.Clear();
+        lineRenderer.SetPositions(linepoints.ToArray());
     }
 }

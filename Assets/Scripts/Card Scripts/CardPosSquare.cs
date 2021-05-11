@@ -16,29 +16,9 @@ public class CardPosSquare : MonoBehaviour
     private bool addNextCard = true;
     private Queue<CardHighlighter> queuedCards = new Queue<CardHighlighter>();
 
-
     void Update()
     {
         AddCardFromQueueToHand();
-        if (hand != null & hand.Count > 0)
-        {
-            NoCardsHighlighted();
-        }
-    }
-
-    private void NoCardsHighlighted()
-    {
-        foreach(CardHighlighter card in hand)
-        {
-            if (card.IsHighlighted())
-            {
-                return;
-            }
-        }
-        foreach(CardHighlighter card in hand)
-        {
-            card.transform.DOMove(card.GetCardSlotPos().transform.position + cardHight, 0.8f);
-        }
     }
 
     public void AddCardToQueue(CardHighlighter card)
@@ -46,27 +26,34 @@ public class CardPosSquare : MonoBehaviour
         queuedCards.Enqueue(card);
     }
 
+    private void CardHighlighterSwitch(bool onOrOff)
+    {
+        foreach(CardHighlighter card in hand)
+        {
+            card.GetComponent<CardHighlighter>().enabled = onOrOff;
+        }
+    } 
+
     private void AddCardFromQueueToHand()
     {
         if (queuedCards.Count > 0 && addNextCard)
         {
             addNextCard = false;
             CardHighlighter card = queuedCards.Dequeue();
+            card.GetComponent<CardHighlighter>().enabled = false;
             int nextOpenSlot = MoveCardsDownOneSlot();
-            GameObject[] evenOrOdd = IsEvenHandLength() ? oddCardSlots : evenCardSlots ;
+            GameObject[] evenOrOdd = IsEvenHandLength() ? oddCardSlots : evenCardSlots;
 
             card.transform.rotation = evenOrOdd[nextOpenSlot].transform.rotation;
             card.setCardSlotPos(evenOrOdd[nextOpenSlot].transform);
             card.transform.DOMove(evenOrOdd[nextOpenSlot].transform.position + cardHight, CARD_DRAW_SPEED).OnComplete(()=>
             {
-                // sets a reference to cards to the right and left
-                if (hand.Count > 0)
-                {
-                    card.setleftCard(hand[hand.Count - 1]);
-                    hand[hand.Count - 1].setRightCard(card);
-                }
                 addNextCard = true;
                 hand.Add(card);
+                if(queuedCards.Count <= 0)
+                {
+                    CardHighlighterSwitch(true);
+                }
             });
         }
     }
