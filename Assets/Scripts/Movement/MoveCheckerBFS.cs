@@ -26,10 +26,6 @@ public class MoveCheckerBFS : MonoBehaviour
 
     }
 
-
-
-
-
     public int findArraySize(int stamina)
     {
         if (stamina == 0)

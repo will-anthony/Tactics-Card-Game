@@ -26,11 +26,11 @@ public class CardPosSquare : MonoBehaviour
         queuedCards.Enqueue(card);
     }
 
-    private void CardHighlighterSwitch(bool onOrOff)
+    private void CardInteractableSwitch(bool onOrOff)
     {
         foreach(CardHighlighter card in hand)
         {
-            card.GetComponent<CardHighlighter>().enabled = onOrOff;
+            card.SetCardInteractable(onOrOff);
         }
     } 
 
@@ -40,19 +40,19 @@ public class CardPosSquare : MonoBehaviour
         {
             addNextCard = false;
             CardHighlighter card = queuedCards.Dequeue();
-            card.GetComponent<CardHighlighter>().enabled = false;
+            card.enabled = false;
             int nextOpenSlot = MoveCardsDownOneSlot();
             GameObject[] evenOrOdd = IsEvenHandLength() ? oddCardSlots : evenCardSlots;
 
             card.transform.rotation = evenOrOdd[nextOpenSlot].transform.rotation;
-            card.setCardSlotPos(evenOrOdd[nextOpenSlot].transform);
+            card.SetCardSlotPos(evenOrOdd[nextOpenSlot].transform);
             card.transform.DOMove(evenOrOdd[nextOpenSlot].transform.position + cardHight, CARD_DRAW_SPEED).OnComplete(()=>
             {
                 addNextCard = true;
                 hand.Add(card);
                 if(queuedCards.Count <= 0)
                 {
-                    CardHighlighterSwitch(true);
+                    CardInteractableSwitch(true);
                 }
             });
         }
@@ -60,7 +60,6 @@ public class CardPosSquare : MonoBehaviour
 
     private int MoveCardsDownOneSlot()
     {
-
         if(IsEvenHandLength())
         {
             int firstOccupiedSlot = FindStartingSlot(evenCardSlots.Length);
@@ -68,7 +67,7 @@ public class CardPosSquare : MonoBehaviour
             {
                 card.transform.DOMove(oddCardSlots[firstOccupiedSlot - 1].transform.position + cardHight, CARD_DRAW_SPEED);
                 card.transform.DORotate(oddCardSlots[firstOccupiedSlot - 1].transform.rotation.eulerAngles, CARD_DRAW_SPEED);
-                card.setCardSlotPos(evenCardSlots[firstOccupiedSlot - 1].transform);
+                card.SetCardSlotPos(evenCardSlots[firstOccupiedSlot - 1].transform);
                 firstOccupiedSlot++;
             }
             return firstOccupiedSlot - 1;
@@ -80,7 +79,7 @@ public class CardPosSquare : MonoBehaviour
             {
                 card.transform.DOMove(evenCardSlots[firstOccupiedSlot].transform.position + cardHight, CARD_DRAW_SPEED);
                 card.transform.DORotate(evenCardSlots[firstOccupiedSlot].transform.rotation.eulerAngles, CARD_DRAW_SPEED);
-                card.setCardSlotPos(evenCardSlots[firstOccupiedSlot].transform);
+                card.SetCardSlotPos(evenCardSlots[firstOccupiedSlot].transform);
                 firstOccupiedSlot++;
             }
             return firstOccupiedSlot;

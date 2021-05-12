@@ -28,9 +28,13 @@ public class SimpleLineScript : MonoBehaviour
         //    this.displayline();
         //}
     }
-       
 
-    private void displayline()
+    private void OnMouseDrag()
+    {
+        DisplayLine();
+    }
+
+    private void DisplayLine()
     {
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);

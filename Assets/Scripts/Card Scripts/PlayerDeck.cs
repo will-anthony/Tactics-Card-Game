@@ -29,4 +29,9 @@ public class PlayerDeck : MonoBehaviour
             cardsSet = false;
         }
     }
+
+    public List<CardHighlighter> GetDeck()
+    {
+        return deck;
+    }
 }

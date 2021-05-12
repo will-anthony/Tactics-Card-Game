@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class PlayerMove : TacticsMove
 {
+    bool attacking = false;
     // Start is called before the first frame update
     void Start()
     {
         Init();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        List<CardHighlighter> cards = GetComponent<PlayerDeck>().GetDeck();
+        foreach (CardHighlighter card in cards)
+        {
+            if(card.IsCardClicked())
+            {
+                attacking = true;
+                return;
+            }
+            attacking = false;
+        }
     }
 
     public void InitiateMovementPhase()
@@ -26,7 +35,7 @@ public class PlayerMove : TacticsMove
             return;
         }
 
-        if (!moving)
+        if (!moving && !attacking)
         {
             FindSelectableTiles();
             CheckMouse();
@@ -56,5 +65,15 @@ public class PlayerMove : TacticsMove
                 }
             }
         }
+    }
+
+    public bool IsAttacking()
+    {
+        return attacking;
+    }
+
+    public void SetAttacking(bool isAttacking)
+    {
+        this.attacking = isAttacking;
     }
 }

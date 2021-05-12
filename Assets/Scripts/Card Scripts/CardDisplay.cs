@@ -18,6 +18,5 @@ public class CardDisplay : MonoBehaviour
         descriptionText.text = card.description;
         artwork.sprite = card.artwork;
         staminaText.text = card.staminaCost.ToString();
-
     }
 }
